@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Operations Update — W19 · Medicilio</title>
+<link rel="stylesheet" href="../tokens.css">
+<link rel="stylesheet" href="../components.css">
+<style>
+  .doc {
+    max-width: var(--content-max);
+    margin: 0 auto;
+    padding: var(--s-7);
+  }
+  .doc__hero {
+    padding: var(--s-7) 0 var(--s-6);
+    margin-bottom: var(--s-6);
+  }
+  .doc__hero-eyebrow {
+    font-size: var(--fs-caption);
+    font-weight: var(--fw-semibold);
+    text-transform: uppercase;
+    letter-spacing: var(--tracking-wide);
+    color: var(--color-secondary);
+    margin-bottom: var(--s-3);
+  }
+  .doc__hero-title {
+    font-size: var(--fs-h1);
+    font-weight: var(--fw-semibold);
+    color: var(--color-primary);
+    margin-bottom: var(--s-3);
+    max-width: 720px;
+  }
+  .doc__hero-lead {
+    font-size: var(--fs-lead);
+    color: var(--color-text-muted);
+    max-width: 640px;
+    line-height: 1.5;
+  }
+  .doc__stat-row {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: var(--s-4);
+    margin-bottom: var(--s-7);
+  }
+  .doc__split {
+    display: grid;
+    grid-template-columns: 1.5fr 1fr;
+    gap: var(--s-6);
+    margin-top: var(--s-4);
+  }
+  .doc__foot {
+    margin-top: var(--s-9);
+    padding-top: var(--s-5);
+    border-top: 1px solid var(--color-border);
+    display: flex;
+    justify-content: space-between;
+    font-size: var(--fs-small);
+    color: var(--color-text-subtle);
+  }
+  .doc__back {
+    display: inline-block;
+    margin-bottom: var(--s-5);
+    font-size: var(--fs-small);
+    color: var(--color-text-muted);
+    text-decoration: none;
+  }
+  .doc__back:hover { color: var(--color-primary); }
+</style>
+</head>
+<body>
+
+<header class="med-header">
+  <div class="med-header__strip"></div>
+  <div class="med-header__inner">
+    <div class="med-header__brand">
+      <div class="med-header__logo">M</div>
+      <div class="med-header__meta">
+        <div class="med-header__eyebrow">Weekly Status · W19</div>
+        <h1 class="med-header__title">Operations Update — Maggio 2026</h1>
+      </div>
+    </div>
+    <div class="med-header__aside">
+      <div class="med-header__date">
+        <span class="med-header__eyebrow">Pubblicato</span>
+        <span class="med-header__date-value">8 Maggio 2026</span>
+      </div>
+      <span class="med-pill med-pill--ok">Live</span>
+    </div>
+  </div>
+</header>
+
+<main class="doc">
+
+  <a href="../index.html" class="doc__back">← Catalogo</a>
+
+  <section class="doc__hero">
+    <div class="doc__hero-eyebrow">TL;DR · Cosa serve sapere</div>
+    <h2 class="doc__hero-title">
+      Settimana solida sull'operativo, rallentamento sul rollout v2.
+    </h2>
+    <p class="doc__hero-lead">
+      Volumi in crescita +12% su Milano, dispatching tornato sotto target. La v2 dell'app paziente slitta di 3 settimane: integrazione FSE più complessa del previsto, decisione richiesta su scope.
+    </p>
+  </section>
+
+  <div class="doc__stat-row">
+    <article class="med-stat med-stat--accent">
+      <div class="med-stat__label">Visite completate</div>
+      <div class="med-stat__value">1.247</div>
+      <div class="med-stat__trend med-stat__trend--up">
+        <span class="med-stat__trend-icon">
+          <svg width="8" height="8" viewBox="0 0 8 8"><path d="M1.5 5.5 L4 3 L6.5 5.5" stroke="currentColor" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </span>
+        <span>+12,4% sett.</span>
+      </div>
+    </article>
+    <article class="med-stat">
+      <div class="med-stat__label">NPS medio</div>
+      <div class="med-stat__value">8,6<span class="med-stat__value-suffix">/10</span></div>
+      <div class="med-stat__trend med-stat__trend--up">
+        <span class="med-stat__trend-icon">
+          <svg width="8" height="8" viewBox="0 0 8 8"><path d="M1.5 5.5 L4 3 L6.5 5.5" stroke="currentColor" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </span>
+        <span>+0,3 vs Q3</span>
+      </div>
+    </article>
+    <article class="med-stat">
+      <div class="med-stat__label">Tempo dispatch</div>
+      <div class="med-stat__value">11<span class="med-stat__value-suffix">min</span></div>
+      <div class="med-stat__trend med-stat__trend--up">
+        <span class="med-stat__trend-icon">
+          <svg width="8" height="8" viewBox="0 0 8 8"><path d="M1.5 5.5 L4 3 L6.5 5.5" stroke="currentColor" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </span>
+        <span>−3 min vs target</span>
+      </div>
+    </article>
+    <article class="med-stat">
+      <div class="med-stat__label">Infermieri attivi</div>
+      <div class="med-stat__value">42</div>
+      <div class="med-stat__trend">
+        <span>+0 sett.</span>
+      </div>
+    </article>
+  </div>
+
+
+  <div class="med-section-head">
+    <span class="med-section-head__num">01</span>
+    <h2 class="med-section-head__title">Cosa è andato bene</h2>
+  </div>
+
+  <ol class="med-timeline">
+    <li class="med-timeline__item med-timeline__item--done">
+      <span class="med-timeline__time">Lun 4 Mag</span>
+      <span class="med-timeline__title">3 nuovi infermieri onboarded a Milano Nord</span>
+      <span class="med-timeline__desc">Coverage completa quartieri Affori, Bovisa, Niguarda. Capacità +18%.</span>
+    </li>
+    <li class="med-timeline__item med-timeline__item--done">
+      <span class="med-timeline__time">Mer 6 Mag</span>
+      <span class="med-timeline__title">Firmato accordo con 4 farmacie pilot Lazio</span>
+      <span class="med-timeline__desc">Onboarding operativo dal 12/5. Target: 60 visite/sett entro fine mese.</span>
+    </li>
+    <li class="med-timeline__item med-timeline__item--done">
+      <span class="med-timeline__time">Gio 7 Mag</span>
+      <span class="med-timeline__title">Dispatching tornato sotto target (11 min)</span>
+      <span class="med-timeline__desc">Algoritmo aggiornato + redistribuzione zone hanno rimosso il backlog accumulato.</span>
+    </li>
+  </ol>
+
+
+  <div class="med-section-head">
+    <span class="med-section-head__num">02</span>
+    <h2 class="med-section-head__title">Iniziative attive</h2>
+    <span class="med-section-head__count">4 in corso · 1 a rischio</span>
+  </div>
+
+  <table class="med-table">
+    <thead>
+      <tr>
+        <th>Iniziativa</th>
+        <th>Owner</th>
+        <th class="med-table__num">Visite/sett</th>
+        <th>Stato</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td class="med-table__primary">Espansione Milano Nord</td>
+        <td class="med-table__muted">Sara C.</td>
+        <td class="med-table__num">312</td>
+        <td><span class="med-pill med-pill--ok">On track</span></td>
+      </tr>
+      <tr>
+        <td class="med-table__primary">Rollout app paziente v2</td>
+        <td class="med-table__muted">Marco T.</td>
+        <td class="med-table__num">—</td>
+        <td><span class="med-pill med-pill--warn">A rischio</span></td>
+      </tr>
+      <tr>
+        <td class="med-table__primary">Partner farmacie Lazio</td>
+        <td class="med-table__muted">Mattia P.</td>
+        <td class="med-table__num">87</td>
+        <td><span class="med-pill med-pill--ok">On track</span></td>
+      </tr>
+      <tr>
+        <td class="med-table__primary">Certificazione MDR Class IIa</td>
+        <td class="med-table__muted">Studio legale</td>
+        <td class="med-table__num">—</td>
+        <td><span class="med-pill med-pill--neutral">In attesa</span></td>
+      </tr>
+    </tbody>
+  </table>
+
+
+  <div class="med-section-head">
+    <span class="med-section-head__num">03</span>
+    <h2 class="med-section-head__title">Decisione richiesta · App v2</h2>
+  </div>
+
+  <p style="font-size:var(--fs-body);color:var(--color-text-muted);margin-bottom:var(--s-5);max-width:720px">
+    L'integrazione FSE ha aggiunto 3 settimane di lavoro. Tre opzioni sul tavolo:
+  </p>
+
+  <div class="med-compare">
+    <div class="med-compare__col">
+      <div class="med-compare__head">
+        <div class="med-compare__title">Slittare di 3 sett.</div>
+        <div class="med-compare__sub">Mantenere lo scope</div>
+      </div>
+      <ul class="med-compare__rows">
+        <li class="med-compare__row"><span class="med-compare__row-label">Lancio</span><span class="med-compare__row-value">15 Ago</span></li>
+        <li class="med-compare__row"><span class="med-compare__row-label">Rischio</span><span class="med-compare__row-value">Basso</span></li>
+        <li class="med-compare__row"><span class="med-compare__row-label">Trade-off</span><span class="med-compare__row-value">Estate calda</span></li>
+      </ul>
+    </div>
+    <div class="med-compare__col med-compare__col--featured">
+      <div class="med-compare__head">
+        <div class="med-compare__title">Scope ridotto</div>
+        <div class="med-compare__sub">FSE in v2.1 a settembre</div>
+      </div>
+      <ul class="med-compare__rows">
+        <li class="med-compare__row"><span class="med-compare__row-label">Lancio</span><span class="med-compare__row-value">25 Lug</span></li>
+        <li class="med-compare__row"><span class="med-compare__row-label">Rischio</span><span class="med-compare__row-value">Medio</span></li>
+        <li class="med-compare__row"><span class="med-compare__row-label">Trade-off</span><span class="med-compare__row-value">2 release ravvicinate</span></li>
+      </ul>
+    </div>
+    <div class="med-compare__col">
+      <div class="med-compare__head">
+        <div class="med-compare__title">Risorse extra</div>
+        <div class="med-compare__sub">Contractor 4 settimane</div>
+      </div>
+      <ul class="med-compare__rows">
+        <li class="med-compare__row"><span class="med-compare__row-label">Lancio</span><span class="med-compare__row-value">25 Lug</span></li>
+        <li class="med-compare__row"><span class="med-compare__row-label">Rischio</span><span class="med-compare__row-value">Alto</span></li>
+        <li class="med-compare__row"><span class="med-compare__row-label">Costo</span><span class="med-compare__row-value">+18k €</span></li>
+      </ul>
+    </div>
+  </div>
+
+
+  <div class="med-section-head">
+    <span class="med-section-head__num">04</span>
+    <h2 class="med-section-head__title">Domande aperte</h2>
+  </div>
+
+  <details class="med-collapse">
+    <summary class="med-collapse__summary">
+      <span>Validiamo lo scope ridotto della v2 con i 10 power user prima di committare?</span>
+      <svg class="med-collapse__chevron" width="14" height="14" viewBox="0 0 14 14"><path d="M5 3 L9 7 L5 11" stroke="currentColor" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    </summary>
+    <div class="med-collapse__body">
+      Proposta: questionario rapido + 3 call esplorative entro venerdì. Costa 2 giorni a Marco, ma blinda la decisione.
+    </div>
+  </details>
+  <details class="med-collapse">
+    <summary class="med-collapse__summary">
+      <span>Le 4 farmacie Lazio possono diventare 8 entro fine Q2?</span>
+      <svg class="med-collapse__chevron" width="14" height="14" viewBox="0 0 14 14"><path d="M5 3 L9 7 L5 11" stroke="currentColor" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    </summary>
+    <div class="med-collapse__body">
+      Pipeline: 3 firmate, 4 in trattativa, 5 contattate. Limite reale è capacità infermieri Lazio, non sales.
+    </div>
+  </details>
+
+
+  <footer class="doc__foot">
+    <span>Operations Update · W19 · 8 Mag 2026</span>
+    <span>Mattia Perroni</span>
+  </footer>
+
+</main>
+</body>
+</html>

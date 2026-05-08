@@ -1,0 +1,119 @@
+/* ============================================
+   Medicilio Design System — Foundation Tokens
+   ============================================ */
+
+@import url('https://fonts.googleapis.com/css2?family=Titillium+Web:wght@200;300;400;600;700&display=swap');
+
+:root {
+  /* ---- Brand ---- */
+  --color-primary: #00305b;
+  --color-secondary: #1a8096;
+  --color-accent: #00ffd5;
+
+  /* ---- Neutrals ---- */
+  --color-bg: #fafbfc;
+  --color-surface: #ffffff;
+  --color-border: #e4e7eb;
+  --color-border-strong: #cbd2db;
+  --color-text: #1a2332;
+  --color-text-muted: #5a6878;
+  --color-text-subtle: #8a96a3;
+
+  /* ---- Status ---- */
+  --color-success: #1a8064;
+  --color-warning: #b87a1f;
+  --color-danger: #b8324a;
+  --color-success-bg: rgba(26, 128, 100, 0.10);
+  --color-warning-bg: rgba(184, 122, 31, 0.10);
+  --color-danger-bg: rgba(184, 50, 74, 0.10);
+
+  /* ---- Typography ---- */
+  --font-body: 'Titillium Web', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+
+  --fs-caption: 11px;
+  --fs-small: 13px;
+  --fs-body: 15px;
+  --fs-lead: 18px;
+  --fs-h3: 20px;
+  --fs-h2: 28px;
+  --fs-h1: 40px;
+  --fs-display: 56px;
+
+  --fw-light: 300;
+  --fw-regular: 400;
+  --fw-semibold: 600;
+  --fw-bold: 700;
+
+  --lh-tight: 1.15;
+  --lh-base: 1.55;
+
+  --tracking-wide: 0.08em;
+  --tracking-tight: -0.01em;
+
+  /* ---- Spacing (4-based) ---- */
+  --s-1: 4px;
+  --s-2: 8px;
+  --s-3: 12px;
+  --s-4: 16px;
+  --s-5: 24px;
+  --s-6: 32px;
+  --s-7: 48px;
+  --s-8: 64px;
+  --s-9: 96px;
+
+  /* ---- Radius ---- */
+  --r-sm: 4px;
+  --r-md: 6px;
+  --r-lg: 12px;
+  --r-pill: 999px;
+
+  /* ---- Shadows ---- */
+  --shadow-sm: 0 1px 2px rgba(0, 48, 91, 0.04), 0 1px 1px rgba(0, 48, 91, 0.06);
+  --shadow-md: 0 4px 12px rgba(0, 48, 91, 0.06), 0 2px 4px rgba(0, 48, 91, 0.04);
+
+  /* ---- Motion ---- */
+  --t-fast: 120ms ease;
+  --t-base: 200ms ease;
+
+  /* ---- Layout ---- */
+  --content-max: 1120px;
+}
+
+/* ---- Reset ---- */
+*, *::before, *::after { box-sizing: border-box; }
+html, body { margin: 0; padding: 0; }
+button, input, select, textarea { font: inherit; }
+
+body {
+  font-family: var(--font-body);
+  font-size: var(--fs-body);
+  font-weight: var(--fw-regular);
+  line-height: var(--lh-base);
+  color: var(--color-text);
+  background: var(--color-bg);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+}
+
+h1, h2, h3, h4 {
+  margin: 0;
+  line-height: var(--lh-tight);
+  letter-spacing: var(--tracking-tight);
+  color: var(--color-primary);
+}
+h1 { font-size: var(--fs-h1); font-weight: var(--fw-semibold); }
+h2 { font-size: var(--fs-h2); font-weight: var(--fw-semibold); }
+h3 { font-size: var(--fs-h3); font-weight: var(--fw-semibold); }
+
+p { margin: 0; }
+
+code {
+  font-family: 'SF Mono', 'Monaco', 'Cascadia Code', 'Roboto Mono', monospace;
+  font-size: 0.9em;
+}
+
+::selection {
+  background: var(--color-accent);
+  color: var(--color-primary);
+}

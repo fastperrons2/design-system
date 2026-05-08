@@ -1,0 +1,629 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Triage Board · Medicilio</title>
+<link rel="stylesheet" href="../tokens.css">
+<link rel="stylesheet" href="../components.css">
+<style>
+  body { background: var(--color-bg); }
+
+  .app {
+    max-width: var(--content-max);
+    margin: 0 auto;
+    padding: var(--s-6) var(--s-7) var(--s-9);
+  }
+
+  .app__head {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    margin: var(--s-6) 0 var(--s-6);
+    padding-bottom: var(--s-4);
+    border-bottom: 1px solid var(--color-border);
+    gap: var(--s-5);
+  }
+
+  .app__title-block { max-width: 600px; }
+
+  .app__title {
+    font-size: var(--fs-h1);
+    font-weight: var(--fw-light);
+    color: var(--color-primary);
+    letter-spacing: var(--tracking-tight);
+    line-height: 1.1;
+    margin-bottom: var(--s-2);
+  }
+  .app__title strong { font-weight: var(--fw-semibold); }
+
+  .app__sub {
+    font-size: var(--fs-small);
+    color: var(--color-text-muted);
+  }
+
+  .app__actions { display: flex; gap: var(--s-2); }
+
+  .btn {
+    font-family: var(--font-body);
+    font-size: var(--fs-small);
+    font-weight: var(--fw-semibold);
+    padding: 8px 16px;
+    border-radius: var(--r-md);
+    border: 1px solid var(--color-border-strong);
+    background: var(--color-surface);
+    color: var(--color-text);
+    cursor: pointer;
+    transition: border-color var(--t-fast), background var(--t-fast), color var(--t-fast);
+    white-space: nowrap;
+  }
+  .btn:hover { border-color: var(--color-primary); color: var(--color-primary); }
+
+  .btn--primary {
+    background: var(--color-primary);
+    border-color: var(--color-primary);
+    color: var(--color-accent);
+  }
+  .btn--primary:hover { background: #001f3d; color: var(--color-accent); }
+
+  .btn--ghost {
+    background: transparent;
+    border-color: var(--color-border);
+  }
+
+  .app__back {
+    display: inline-block;
+    font-size: var(--fs-small);
+    color: var(--color-text-muted);
+    text-decoration: none;
+  }
+  .app__back:hover { color: var(--color-primary); }
+
+  /* Board */
+  .board {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: var(--s-4);
+  }
+
+  .col {
+    background: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: var(--r-md);
+    display: flex;
+    flex-direction: column;
+    min-height: 480px;
+    transition: border-color var(--t-base), background var(--t-base);
+  }
+
+  .col.is-dragging-over {
+    border-color: var(--color-primary);
+    background: rgba(0, 255, 213, 0.04);
+  }
+
+  .col__head {
+    padding: var(--s-3) var(--s-4);
+    border-bottom: 1px solid var(--color-border);
+    display: flex;
+    align-items: center;
+    gap: var(--s-2);
+    position: relative;
+  }
+
+  .col__head::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 3px;
+    height: 100%;
+    background: var(--col-accent, var(--color-text-subtle));
+  }
+
+  .col[data-col="now"]   { --col-accent: var(--color-accent); }
+  .col[data-col="next"]  { --col-accent: var(--color-secondary); }
+  .col[data-col="later"] { --col-accent: var(--color-text-subtle); }
+  .col[data-col="cut"]   { --col-accent: var(--color-danger); }
+
+  .col__title {
+    font-size: var(--fs-caption);
+    font-weight: var(--fw-bold);
+    text-transform: uppercase;
+    letter-spacing: var(--tracking-wide);
+    color: var(--color-primary);
+  }
+
+  .col__count {
+    margin-left: auto;
+    font-size: var(--fs-caption);
+    font-weight: var(--fw-semibold);
+    color: var(--color-text-subtle);
+    background: var(--color-bg);
+    padding: 2px 8px;
+    border-radius: var(--r-pill);
+    min-width: 22px;
+    text-align: center;
+    font-variant-numeric: tabular-nums;
+  }
+
+  .col__list {
+    flex: 1;
+    padding: var(--s-3);
+    display: flex;
+    flex-direction: column;
+    gap: var(--s-2);
+    overflow-y: auto;
+  }
+
+  .col__add {
+    margin: 0 var(--s-3) var(--s-3);
+    padding: 8px;
+    background: transparent;
+    border: 1.5px dashed var(--color-border-strong);
+    border-radius: var(--r-md);
+    color: var(--color-text-muted);
+    font-size: var(--fs-small);
+    cursor: pointer;
+    transition: border-color var(--t-fast), color var(--t-fast);
+    font-family: var(--font-body);
+  }
+  .col__add:hover { border-color: var(--color-primary); color: var(--color-primary); }
+
+  /* Card */
+  .card {
+    background: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: var(--r-sm);
+    padding: var(--s-3) var(--s-3);
+    cursor: grab;
+    user-select: none;
+    transition: border-color var(--t-fast), box-shadow var(--t-fast), transform var(--t-fast);
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+  }
+
+  .card:hover {
+    border-color: var(--color-border-strong);
+    box-shadow: var(--shadow-sm);
+  }
+  .card:active { cursor: grabbing; }
+  .card.is-dragging { opacity: 0.4; }
+
+  .card__text {
+    font-size: var(--fs-small);
+    color: var(--color-text);
+    line-height: 1.4;
+    flex: 1;
+    background: transparent;
+    border: none;
+    outline: none;
+    font-family: var(--font-body);
+    resize: none;
+    padding: 0;
+    margin: 0;
+    width: 100%;
+    overflow: hidden;
+    min-height: 1.4em;
+  }
+
+  .card__delete {
+    position: absolute;
+    top: 4px;
+    right: 4px;
+    width: 18px;
+    height: 18px;
+    border: none;
+    background: transparent;
+    color: var(--color-text-subtle);
+    cursor: pointer;
+    opacity: 0;
+    transition: opacity var(--t-fast), color var(--t-fast);
+    border-radius: 4px;
+    font-size: 14px;
+    line-height: 1;
+    padding: 0;
+  }
+  .card:hover .card__delete { opacity: 1; }
+  .card__delete:hover { color: var(--color-danger); background: var(--color-danger-bg); }
+
+  /* Modal */
+  .modal {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 48, 91, 0.5);
+    display: none;
+    align-items: center;
+    justify-content: center;
+    z-index: 100;
+    padding: var(--s-5);
+  }
+  .modal.is-open { display: flex; }
+
+  .modal__inner {
+    background: var(--color-surface);
+    border-radius: var(--r-lg);
+    width: 100%;
+    max-width: 640px;
+    max-height: 80vh;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    box-shadow: var(--shadow-md);
+  }
+
+  .modal__head {
+    padding: var(--s-5) var(--s-5) var(--s-4);
+    border-bottom: 1px solid var(--color-border);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .modal__title {
+    font-size: var(--fs-h3);
+    font-weight: var(--fw-semibold);
+    color: var(--color-primary);
+  }
+
+  .modal__close {
+    border: none;
+    background: transparent;
+    font-size: 22px;
+    color: var(--color-text-muted);
+    cursor: pointer;
+    padding: 0;
+    line-height: 1;
+    width: 24px;
+    height: 24px;
+  }
+  .modal__close:hover { color: var(--color-primary); }
+
+  .modal__body {
+    padding: var(--s-5);
+    overflow-y: auto;
+    flex: 1;
+  }
+
+  .modal__textarea {
+    width: 100%;
+    min-height: 280px;
+    border: 1px solid var(--color-border);
+    border-radius: var(--r-md);
+    padding: var(--s-3) var(--s-4);
+    font-family: 'SF Mono', 'Monaco', monospace;
+    font-size: 13px;
+    line-height: 1.6;
+    background: var(--color-bg);
+    color: var(--color-text);
+    resize: vertical;
+  }
+  .modal__textarea:focus { outline: 2px solid var(--color-primary); outline-offset: -1px; border-color: var(--color-primary); }
+
+  .modal__foot {
+    padding: var(--s-4) var(--s-5);
+    border-top: 1px solid var(--color-border);
+    display: flex;
+    gap: var(--s-2);
+    justify-content: flex-end;
+  }
+
+  .copy-msg {
+    font-size: var(--fs-small);
+    color: var(--color-success);
+    margin-right: auto;
+    align-self: center;
+    opacity: 0;
+    transition: opacity var(--t-base);
+  }
+  .copy-msg.is-shown { opacity: 1; }
+
+  /* Empty col message */
+  .col__empty {
+    color: var(--color-text-subtle);
+    font-size: var(--fs-small);
+    text-align: center;
+    padding: var(--s-5) var(--s-3);
+    border: 1.5px dashed var(--color-border);
+    border-radius: var(--r-md);
+    margin: var(--s-3);
+  }
+</style>
+</head>
+<body>
+
+<header class="med-header">
+  <div class="med-header__strip"></div>
+  <div class="med-header__inner">
+    <div class="med-header__brand">
+      <div class="med-header__logo">M</div>
+      <div class="med-header__meta">
+        <div class="med-header__eyebrow">App · Triage</div>
+        <h1 class="med-header__title">Priority Triage Board</h1>
+      </div>
+    </div>
+    <div class="med-header__aside">
+      <span class="med-pill med-pill--brand">Beta</span>
+    </div>
+  </div>
+</header>
+
+
+<main class="app">
+
+  <a href="../index.html" class="app__back">← Catalogo</a>
+
+  <div class="app__head">
+    <div class="app__title-block">
+      <h2 class="app__title">Cosa facciamo <strong>adesso</strong>, e cosa lasciamo andare.</h2>
+      <p class="app__sub">Drag-and-drop tra le 4 colonne. I dati restano nel browser. Quando hai finito, esporta in Markdown e incollalo dove serve.</p>
+    </div>
+    <div class="app__actions">
+      <button class="btn btn--ghost" id="resetBtn">Reset demo</button>
+      <button class="btn btn--primary" id="exportBtn">Export Markdown ↗</button>
+    </div>
+  </div>
+
+
+  <section class="board" id="board">
+
+    <div class="col" data-col="now">
+      <div class="col__head">
+        <span class="col__title">Now</span>
+        <span class="col__count" data-count></span>
+      </div>
+      <div class="col__list" data-list></div>
+      <button class="col__add" data-add="now">+ Aggiungi card</button>
+    </div>
+
+    <div class="col" data-col="next">
+      <div class="col__head">
+        <span class="col__title">Next</span>
+        <span class="col__count" data-count></span>
+      </div>
+      <div class="col__list" data-list></div>
+      <button class="col__add" data-add="next">+ Aggiungi card</button>
+    </div>
+
+    <div class="col" data-col="later">
+      <div class="col__head">
+        <span class="col__title">Later</span>
+        <span class="col__count" data-count></span>
+      </div>
+      <div class="col__list" data-list></div>
+      <button class="col__add" data-add="later">+ Aggiungi card</button>
+    </div>
+
+    <div class="col" data-col="cut">
+      <div class="col__head">
+        <span class="col__title">Cut</span>
+        <span class="col__count" data-count></span>
+      </div>
+      <div class="col__list" data-list></div>
+      <button class="col__add" data-add="cut">+ Aggiungi card</button>
+    </div>
+
+  </section>
+
+</main>
+
+
+<div class="modal" id="modal">
+  <div class="modal__inner">
+    <div class="modal__head">
+      <div class="modal__title">Markdown export</div>
+      <button class="modal__close" id="modalClose" aria-label="Close">×</button>
+    </div>
+    <div class="modal__body">
+      <textarea class="modal__textarea" id="exportText" readonly></textarea>
+    </div>
+    <div class="modal__foot">
+      <span class="copy-msg" id="copyMsg">Copiato negli appunti ✓</span>
+      <button class="btn btn--primary" id="copyBtn">Copy</button>
+    </div>
+  </div>
+</div>
+
+
+<script>
+(() => {
+  const STORAGE_KEY = 'medicilio-triage-board-v1';
+
+  const seed = {
+    now: [
+      'Decisione scope app v2 (FSE incluso o no)',
+      'Onboarding 4 farmacie Lazio',
+      'Hire infermieri Milano (3 posizioni aperte)',
+    ],
+    next: [
+      'Pricing partner — proposta Sara',
+      'Dashboard ops in tempo reale',
+      'Validazione MDR Class IIa',
+    ],
+    later: [
+      'Espansione Roma (Q3)',
+      'Integrazione referti diagnostica',
+    ],
+    cut: [
+      'Newsletter mensile pazienti',
+    ],
+  };
+
+  let state = load() || JSON.parse(JSON.stringify(seed));
+
+  const board = document.getElementById('board');
+  const cols = board.querySelectorAll('.col');
+
+  function load() {
+    try {
+      const s = localStorage.getItem(STORAGE_KEY);
+      return s ? JSON.parse(s) : null;
+    } catch { return null; }
+  }
+
+  function save() {
+    try { localStorage.setItem(STORAGE_KEY, JSON.stringify(state)); } catch {}
+  }
+
+  function render() {
+    cols.forEach(col => {
+      const key = col.dataset.col;
+      const list = col.querySelector('[data-list]');
+      const count = col.querySelector('[data-count]');
+      list.innerHTML = '';
+
+      const items = state[key] || [];
+      count.textContent = items.length;
+
+      if (items.length === 0) {
+        const empty = document.createElement('div');
+        empty.className = 'col__empty';
+        empty.textContent = 'Trascina qui';
+        list.appendChild(empty);
+      } else {
+        items.forEach((text, idx) => {
+          list.appendChild(makeCard(key, idx, text));
+        });
+      }
+    });
+    save();
+  }
+
+  function makeCard(colKey, idx, text) {
+    const card = document.createElement('div');
+    card.className = 'card';
+    card.draggable = true;
+    card.dataset.col = colKey;
+    card.dataset.idx = idx;
+
+    const ta = document.createElement('textarea');
+    ta.className = 'card__text';
+    ta.value = text;
+    ta.rows = 1;
+
+    const autoresize = () => {
+      ta.style.height = 'auto';
+      ta.style.height = ta.scrollHeight + 'px';
+    };
+    requestAnimationFrame(autoresize);
+    ta.addEventListener('input', autoresize);
+    ta.addEventListener('blur', () => {
+      const newText = ta.value.trim();
+      if (newText === '') {
+        state[colKey].splice(idx, 1);
+        render();
+      } else {
+        state[colKey][idx] = newText;
+        save();
+      }
+    });
+
+    const del = document.createElement('button');
+    del.className = 'card__delete';
+    del.innerHTML = '×';
+    del.title = 'Elimina';
+    del.addEventListener('click', e => {
+      e.stopPropagation();
+      state[colKey].splice(idx, 1);
+      render();
+    });
+
+    card.appendChild(ta);
+    card.appendChild(del);
+
+    card.addEventListener('dragstart', e => {
+      card.classList.add('is-dragging');
+      e.dataTransfer.effectAllowed = 'move';
+      e.dataTransfer.setData('text/plain', JSON.stringify({ col: colKey, idx }));
+    });
+    card.addEventListener('dragend', () => card.classList.remove('is-dragging'));
+
+    return card;
+  }
+
+  cols.forEach(col => {
+    col.addEventListener('dragover', e => {
+      e.preventDefault();
+      col.classList.add('is-dragging-over');
+    });
+    col.addEventListener('dragleave', e => {
+      if (!col.contains(e.relatedTarget)) col.classList.remove('is-dragging-over');
+    });
+    col.addEventListener('drop', e => {
+      e.preventDefault();
+      col.classList.remove('is-dragging-over');
+      const targetKey = col.dataset.col;
+      try {
+        const { col: srcKey, idx } = JSON.parse(e.dataTransfer.getData('text/plain'));
+        const text = state[srcKey][idx];
+        if (text === undefined) return;
+        state[srcKey].splice(idx, 1);
+        state[targetKey].push(text);
+        render();
+      } catch {}
+    });
+  });
+
+  document.querySelectorAll('[data-add]').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const key = btn.dataset.add;
+      state[key].push('Nuova card');
+      render();
+      // focus the new card
+      const list = btn.parentElement.querySelector('[data-list]');
+      const last = list.querySelector('.card:last-child .card__text');
+      if (last) { last.focus(); last.select(); }
+    });
+  });
+
+  // Reset
+  document.getElementById('resetBtn').addEventListener('click', () => {
+    if (confirm('Ripristina i dati di esempio? Perderai le modifiche correnti.')) {
+      state = JSON.parse(JSON.stringify(seed));
+      render();
+    }
+  });
+
+  // Export modal
+  const modal = document.getElementById('modal');
+  const exportText = document.getElementById('exportText');
+
+  function buildMarkdown() {
+    const labels = { now: 'Now', next: 'Next', later: 'Later', cut: 'Cut' };
+    const date = new Date().toLocaleDateString('it-IT', { day: 'numeric', month: 'long', year: 'numeric' });
+    let md = `# Triage Board · ${date}\n\n`;
+    ['now', 'next', 'later', 'cut'].forEach(key => {
+      const items = state[key] || [];
+      md += `## ${labels[key]}\n`;
+      if (items.length === 0) md += `_(vuoto)_\n\n`;
+      else { items.forEach(t => md += `- ${t}\n`); md += '\n'; }
+    });
+    return md.trim();
+  }
+
+  document.getElementById('exportBtn').addEventListener('click', () => {
+    exportText.value = buildMarkdown();
+    modal.classList.add('is-open');
+  });
+  document.getElementById('modalClose').addEventListener('click', () => modal.classList.remove('is-open'));
+  modal.addEventListener('click', e => { if (e.target === modal) modal.classList.remove('is-open'); });
+
+  document.getElementById('copyBtn').addEventListener('click', async () => {
+    try {
+      await navigator.clipboard.writeText(exportText.value);
+      const msg = document.getElementById('copyMsg');
+      msg.classList.add('is-shown');
+      setTimeout(() => msg.classList.remove('is-shown'), 2000);
+    } catch {
+      exportText.select();
+      document.execCommand('copy');
+    }
+  });
+
+  render();
+})();
+</script>
+
+</body>
+</html>

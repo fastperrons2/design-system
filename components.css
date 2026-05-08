@@ -1,0 +1,468 @@
+/* ============================================
+   Medicilio Design System — Components
+   ============================================ */
+
+
+/* ============================================
+   ATOM — Document Header
+   ============================================ */
+
+.med-header {
+  background: var(--color-surface);
+  border-bottom: 1px solid var(--color-border);
+}
+
+.med-header__strip {
+  height: 3px;
+  background: linear-gradient(
+    90deg,
+    var(--color-primary) 0%,
+    var(--color-secondary) 55%,
+    var(--color-accent) 100%
+  );
+}
+
+.med-header__inner {
+  max-width: var(--content-max);
+  margin: 0 auto;
+  padding: var(--s-6) var(--s-7);
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: var(--s-5);
+}
+
+.med-header__brand { display: flex; align-items: center; gap: var(--s-4); }
+
+.med-header__logo {
+  width: 44px;
+  height: 44px;
+  background: var(--color-primary);
+  color: var(--color-accent);
+  border-radius: var(--r-md);
+  display: grid;
+  place-items: center;
+  font-weight: var(--fw-bold);
+  font-size: 20px;
+  letter-spacing: -0.02em;
+  flex-shrink: 0;
+}
+
+.med-header__meta { display: flex; flex-direction: column; gap: 4px; }
+
+.med-header__eyebrow {
+  font-size: var(--fs-caption);
+  font-weight: var(--fw-semibold);
+  text-transform: uppercase;
+  letter-spacing: var(--tracking-wide);
+  color: var(--color-text-muted);
+}
+
+.med-header__title {
+  font-size: var(--fs-h2);
+  font-weight: var(--fw-semibold);
+  color: var(--color-primary);
+}
+
+.med-header__aside { display: flex; align-items: center; gap: var(--s-5); padding-top: 4px; }
+.med-header__date { display: flex; flex-direction: column; align-items: flex-end; gap: 2px; }
+.med-header__date-value { font-size: var(--fs-small); color: var(--color-text); }
+
+
+/* ============================================
+   ATOM — Status Pill
+   ============================================ */
+
+.med-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 10px;
+  border-radius: var(--r-pill);
+  font-size: var(--fs-caption);
+  font-weight: var(--fw-semibold);
+  text-transform: uppercase;
+  letter-spacing: var(--tracking-wide);
+  white-space: nowrap;
+}
+
+.med-pill::before {
+  content: '';
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: currentColor;
+}
+
+.med-pill--ok      { background: var(--color-success-bg); color: var(--color-success); }
+.med-pill--warn    { background: var(--color-warning-bg); color: var(--color-warning); }
+.med-pill--danger  { background: var(--color-danger-bg);  color: var(--color-danger); }
+.med-pill--neutral { background: rgba(90, 104, 120, 0.10); color: var(--color-text-muted); }
+.med-pill--brand   { background: rgba(0, 48, 91, 0.08); color: var(--color-primary); }
+
+
+/* ============================================
+   ATOM — Stat Card
+   ============================================ */
+
+.med-stat {
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--r-md);
+  padding: var(--s-5);
+  display: flex;
+  flex-direction: column;
+  gap: var(--s-3);
+  position: relative;
+  overflow: hidden;
+  transition: border-color var(--t-base), box-shadow var(--t-base), transform var(--t-base);
+}
+
+.med-stat::before {
+  content: '';
+  position: absolute;
+  left: 0; top: 0; bottom: 0;
+  width: 3px;
+  background: var(--color-secondary);
+  opacity: 0.55;
+  transition: opacity var(--t-base);
+}
+
+.med-stat:hover {
+  border-color: var(--color-border-strong);
+  box-shadow: var(--shadow-sm);
+  transform: translateY(-1px);
+}
+
+.med-stat:hover::before { opacity: 1; }
+
+.med-stat--accent::before {
+  background: var(--color-accent);
+  opacity: 1;
+  width: 4px;
+}
+
+.med-stat__label {
+  font-size: var(--fs-caption);
+  font-weight: var(--fw-semibold);
+  text-transform: uppercase;
+  letter-spacing: var(--tracking-wide);
+  color: var(--color-text-muted);
+}
+
+.med-stat__value {
+  font-size: var(--fs-display);
+  font-weight: var(--fw-light);
+  line-height: 1;
+  color: var(--color-primary);
+  letter-spacing: var(--tracking-tight);
+  font-variant-numeric: tabular-nums;
+}
+
+.med-stat__value-suffix {
+  font-size: var(--fs-h2);
+  color: var(--color-text-subtle);
+  font-weight: var(--fw-light);
+  margin-left: 4px;
+}
+
+.med-stat__trend {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: var(--fs-small);
+  color: var(--color-text-muted);
+}
+
+.med-stat__trend-icon {
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  flex-shrink: 0;
+}
+
+.med-stat__trend--up   { color: var(--color-success); }
+.med-stat__trend--down { color: var(--color-danger); }
+.med-stat__trend--up   .med-stat__trend-icon { background: var(--color-success-bg); }
+.med-stat__trend--down .med-stat__trend-icon { background: var(--color-danger-bg); }
+.med-stat__trend--down svg { transform: rotate(180deg); }
+
+
+/* ============================================
+   ATOM — Data Table
+   ============================================ */
+
+.med-table {
+  width: 100%;
+  border-collapse: collapse;
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--r-md);
+  overflow: hidden;
+  font-variant-numeric: tabular-nums;
+}
+
+.med-table thead th {
+  text-align: left;
+  font-size: var(--fs-caption);
+  font-weight: var(--fw-semibold);
+  text-transform: uppercase;
+  letter-spacing: var(--tracking-wide);
+  color: var(--color-text-muted);
+  background: var(--color-bg);
+  padding: var(--s-3) var(--s-4);
+  border-bottom: 1px solid var(--color-border);
+  white-space: nowrap;
+}
+
+.med-table tbody td {
+  padding: var(--s-3) var(--s-4);
+  border-bottom: 1px solid var(--color-border);
+  font-size: var(--fs-small);
+  color: var(--color-text);
+  vertical-align: middle;
+}
+
+.med-table tbody tr:last-child td { border-bottom: none; }
+.med-table tbody tr:hover { background: rgba(26, 128, 150, 0.025); }
+
+.med-table__num { text-align: right; font-variant-numeric: tabular-nums; }
+.med-table__primary { font-weight: var(--fw-semibold); color: var(--color-primary); }
+.med-table__muted { color: var(--color-text-muted); }
+
+
+/* ============================================
+   ATOM — Vertical Timeline
+   ============================================ */
+
+.med-timeline {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  position: relative;
+}
+
+.med-timeline::before {
+  content: '';
+  position: absolute;
+  left: 7px;
+  top: 6px;
+  bottom: 6px;
+  width: 1.5px;
+  background: var(--color-border);
+}
+
+.med-timeline__item {
+  position: relative;
+  padding-left: var(--s-5);
+  padding-bottom: var(--s-5);
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.med-timeline__item:last-child { padding-bottom: 0; }
+
+.med-timeline__item::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 6px;
+  width: 16px;
+  height: 16px;
+  background: var(--color-surface);
+  border: 2px solid var(--color-border-strong);
+  border-radius: 50%;
+}
+
+.med-timeline__item--done::before {
+  background: var(--color-secondary);
+  border-color: var(--color-secondary);
+}
+
+.med-timeline__item--current::before {
+  background: var(--color-accent);
+  border-color: var(--color-primary);
+  box-shadow: 0 0 0 4px rgba(0, 255, 213, 0.2);
+}
+
+.med-timeline__time {
+  font-size: var(--fs-caption);
+  font-weight: var(--fw-semibold);
+  text-transform: uppercase;
+  letter-spacing: var(--tracking-wide);
+  color: var(--color-text-subtle);
+}
+
+.med-timeline__title {
+  font-size: var(--fs-body);
+  font-weight: var(--fw-semibold);
+  color: var(--color-primary);
+}
+
+.med-timeline__desc {
+  font-size: var(--fs-small);
+  color: var(--color-text-muted);
+}
+
+
+/* ============================================
+   ATOM — Collapsible Section
+   ============================================ */
+
+.med-collapse {
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--r-md);
+  overflow: hidden;
+}
+
+.med-collapse + .med-collapse { margin-top: var(--s-2); }
+
+.med-collapse__summary {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: var(--s-4) var(--s-5);
+  cursor: pointer;
+  list-style: none;
+  font-weight: var(--fw-semibold);
+  color: var(--color-primary);
+  font-size: var(--fs-body);
+  transition: background var(--t-fast);
+}
+
+.med-collapse__summary::-webkit-details-marker { display: none; }
+.med-collapse__summary:hover { background: var(--color-bg); }
+
+.med-collapse__chevron {
+  transition: transform var(--t-base);
+  color: var(--color-text-muted);
+  flex-shrink: 0;
+  margin-left: var(--s-3);
+}
+
+.med-collapse[open] .med-collapse__chevron { transform: rotate(90deg); }
+
+.med-collapse__body {
+  padding: var(--s-4) var(--s-5) var(--s-5);
+  color: var(--color-text);
+  font-size: var(--fs-small);
+  line-height: var(--lh-base);
+  border-top: 1px solid var(--color-border);
+}
+
+
+/* ============================================
+   ATOM — Comparison Columns
+   ============================================ */
+
+.med-compare {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: var(--s-4);
+}
+
+.med-compare__col {
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--r-md);
+  padding: var(--s-5);
+  display: flex;
+  flex-direction: column;
+  gap: var(--s-3);
+}
+
+.med-compare__col--featured {
+  border: 2px solid var(--color-primary);
+  box-shadow: var(--shadow-md);
+  position: relative;
+}
+
+.med-compare__col--featured::before {
+  content: 'Consigliato';
+  position: absolute;
+  top: -10px;
+  left: var(--s-4);
+  background: var(--color-primary);
+  color: var(--color-accent);
+  font-size: var(--fs-caption);
+  font-weight: var(--fw-semibold);
+  text-transform: uppercase;
+  letter-spacing: var(--tracking-wide);
+  padding: 2px 10px;
+  border-radius: var(--r-pill);
+}
+
+.med-compare__head {
+  padding-bottom: var(--s-3);
+  border-bottom: 1px solid var(--color-border);
+}
+
+.med-compare__title {
+  font-size: var(--fs-h3);
+  font-weight: var(--fw-semibold);
+  color: var(--color-primary);
+}
+
+.med-compare__sub {
+  font-size: var(--fs-small);
+  color: var(--color-text-muted);
+  margin-top: 2px;
+}
+
+.med-compare__rows {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: var(--s-2);
+}
+
+.med-compare__row {
+  display: flex;
+  justify-content: space-between;
+  gap: var(--s-3);
+  font-size: var(--fs-small);
+  padding: 4px 0;
+}
+
+.med-compare__row-label { color: var(--color-text-muted); }
+.med-compare__row-value { color: var(--color-text); font-weight: var(--fw-semibold); }
+
+
+/* ============================================
+   ATOM — In-document Section Header
+   ============================================ */
+
+.med-section-head {
+  display: flex;
+  align-items: baseline;
+  gap: var(--s-4);
+  margin: var(--s-7) 0 var(--s-4);
+  padding-bottom: var(--s-3);
+  border-bottom: 1px solid var(--color-border);
+}
+
+.med-section-head__num {
+  font-size: var(--fs-caption);
+  font-weight: var(--fw-semibold);
+  letter-spacing: var(--tracking-wide);
+  color: var(--color-text-subtle);
+  font-variant-numeric: tabular-nums;
+}
+
+.med-section-head__title {
+  font-size: var(--fs-h2);
+  font-weight: var(--fw-semibold);
+  color: var(--color-primary);
+}
+
+.med-section-head__count {
+  margin-left: auto;
+  font-size: var(--fs-small);
+  color: var(--color-text-subtle);
+}

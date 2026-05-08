@@ -1,0 +1,691 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Medicilio Design System</title>
+<link rel="stylesheet" href="tokens.css">
+<link rel="stylesheet" href="components.css">
+<style>
+  /* Showroom layout — non parte della libreria */
+
+  .show-shell {
+    max-width: var(--content-max);
+    margin: 0 auto;
+    padding: var(--s-7) var(--s-7) var(--s-9);
+  }
+
+  .show-hero {
+    padding: var(--s-8) 0 var(--s-7);
+    margin-bottom: var(--s-8);
+    border-bottom: 1px solid var(--color-border);
+  }
+
+  .show-hero__eyebrow {
+    font-size: var(--fs-caption);
+    font-weight: var(--fw-semibold);
+    text-transform: uppercase;
+    letter-spacing: var(--tracking-wide);
+    color: var(--color-secondary);
+    margin-bottom: var(--s-3);
+  }
+
+  .show-hero__title {
+    font-size: 48px;
+    font-weight: var(--fw-light);
+    color: var(--color-primary);
+    letter-spacing: -0.02em;
+    line-height: 1.1;
+    max-width: 720px;
+    margin-bottom: var(--s-3);
+  }
+
+  .show-hero__title strong { font-weight: var(--fw-semibold); }
+
+  .show-hero__sub {
+    font-size: var(--fs-lead);
+    color: var(--color-text-muted);
+    max-width: 580px;
+  }
+
+  .show-hero__counts {
+    display: flex;
+    gap: var(--s-7);
+    margin-top: var(--s-6);
+  }
+
+  .show-count__num {
+    font-size: var(--fs-h2);
+    font-weight: var(--fw-light);
+    color: var(--color-primary);
+    line-height: 1;
+  }
+
+  .show-count__label {
+    font-size: var(--fs-caption);
+    font-weight: var(--fw-semibold);
+    text-transform: uppercase;
+    letter-spacing: var(--tracking-wide);
+    color: var(--color-text-subtle);
+    margin-top: 4px;
+  }
+
+  /* Group of components */
+  .show-group { margin-bottom: var(--s-9); }
+
+  .show-group__head {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    margin-bottom: var(--s-6);
+  }
+
+  .show-group__title {
+    font-size: var(--fs-h2);
+    font-weight: var(--fw-semibold);
+    color: var(--color-primary);
+  }
+
+  .show-group__count {
+    font-size: var(--fs-small);
+    color: var(--color-text-subtle);
+  }
+
+  /* Single component card */
+  .show-atom {
+    margin-bottom: var(--s-7);
+  }
+
+  .show-atom__head { margin-bottom: var(--s-3); }
+
+  .show-atom__name {
+    font-size: var(--fs-h3);
+    font-weight: var(--fw-semibold);
+    color: var(--color-primary);
+    margin-bottom: 4px;
+  }
+
+  .show-atom__when {
+    font-size: var(--fs-small);
+    color: var(--color-text-muted);
+  }
+
+  .show-atom__demo {
+    background: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: var(--r-md);
+    padding: var(--s-6);
+    margin-bottom: var(--s-2);
+  }
+
+  .show-atom__demo--flush { padding: 0; overflow: hidden; }
+
+  .show-code {
+    background: transparent;
+    border: 1px solid var(--color-border);
+    border-radius: var(--r-md);
+    overflow: hidden;
+  }
+
+  .show-code__summary {
+    padding: var(--s-2) var(--s-4);
+    font-size: var(--fs-caption);
+    font-weight: var(--fw-semibold);
+    text-transform: uppercase;
+    letter-spacing: var(--tracking-wide);
+    color: var(--color-text-muted);
+    cursor: pointer;
+    list-style: none;
+    user-select: none;
+  }
+
+  .show-code__summary::-webkit-details-marker { display: none; }
+  .show-code__summary:hover { color: var(--color-primary); }
+  .show-code__summary::after {
+    content: 'show ↓';
+    float: right;
+    font-weight: var(--fw-regular);
+  }
+  .show-code[open] .show-code__summary::after { content: 'hide ↑'; }
+
+  .show-code pre {
+    margin: 0;
+    padding: var(--s-4) var(--s-5);
+    background: var(--color-primary);
+    color: #c9d6e3;
+    font-family: 'SF Mono', 'Monaco', 'Cascadia Code', monospace;
+    font-size: 12px;
+    line-height: 1.65;
+    overflow-x: auto;
+    white-space: pre;
+    border-top: 1px solid var(--color-border);
+  }
+
+  /* Stat row helper for demo */
+  .show-stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--s-4); }
+
+  /* Apps & Patterns cards */
+  .show-link-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: var(--s-4);
+  }
+
+  .show-link {
+    display: block;
+    background: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: var(--r-md);
+    padding: var(--s-5);
+    text-decoration: none;
+    color: var(--color-text);
+    transition: border-color var(--t-base), transform var(--t-base);
+    position: relative;
+    overflow: hidden;
+  }
+
+  .show-link::after {
+    content: '↗';
+    position: absolute;
+    top: var(--s-4);
+    right: var(--s-4);
+    color: var(--color-text-subtle);
+    transition: transform var(--t-base), color var(--t-base);
+  }
+
+  .show-link:hover {
+    border-color: var(--color-primary);
+    transform: translateY(-2px);
+  }
+  .show-link:hover::after {
+    color: var(--color-primary);
+    transform: translate(2px, -2px);
+  }
+
+  .show-link__kind {
+    font-size: var(--fs-caption);
+    font-weight: var(--fw-semibold);
+    text-transform: uppercase;
+    letter-spacing: var(--tracking-wide);
+    color: var(--color-secondary);
+    margin-bottom: var(--s-2);
+  }
+
+  .show-link__title {
+    font-size: var(--fs-h3);
+    font-weight: var(--fw-semibold);
+    color: var(--color-primary);
+    margin-bottom: var(--s-2);
+  }
+
+  .show-link__desc {
+    font-size: var(--fs-small);
+    color: var(--color-text-muted);
+    line-height: 1.5;
+  }
+
+  .show-foot {
+    margin-top: var(--s-9);
+    padding-top: var(--s-5);
+    border-top: 1px solid var(--color-border);
+    font-size: var(--fs-small);
+    color: var(--color-text-subtle);
+    display: flex;
+    justify-content: space-between;
+  }
+</style>
+</head>
+<body>
+
+<header class="med-header">
+  <div class="med-header__strip"></div>
+  <div class="med-header__inner">
+    <div class="med-header__brand">
+      <div class="med-header__logo">M</div>
+      <div class="med-header__meta">
+        <div class="med-header__eyebrow">Component Library</div>
+        <h1 class="med-header__title">Medicilio Design System</h1>
+      </div>
+    </div>
+    <div class="med-header__aside">
+      <span class="med-pill med-pill--brand">v0.2</span>
+    </div>
+  </div>
+</header>
+
+
+<main class="show-shell">
+
+  <section class="show-hero">
+    <div class="show-hero__eyebrow">Showroom</div>
+    <h2 class="show-hero__title">
+      Componenti HTML <strong>on-brand</strong> per documenti e strumenti.
+    </h2>
+    <p class="show-hero__sub">
+      Atomi, pattern e app standalone che Claude assembla negli output Medicilio.
+    </p>
+    <div class="show-hero__counts">
+      <div>
+        <div class="show-count__num">8</div>
+        <div class="show-count__label">Atoms</div>
+      </div>
+      <div>
+        <div class="show-count__num">1</div>
+        <div class="show-count__label">Patterns</div>
+      </div>
+      <div>
+        <div class="show-count__num">1</div>
+        <div class="show-count__label">Apps</div>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- ============ ATOMS ============ -->
+  <section class="show-group">
+    <div class="show-group__head">
+      <h2 class="show-group__title">Atoms</h2>
+      <span class="show-group__count">Mattoni base · combinabili</span>
+    </div>
+
+
+    <!-- 1. Document Header -->
+    <article class="show-atom">
+      <div class="show-atom__head">
+        <h3 class="show-atom__name">Document Header</h3>
+        <p class="show-atom__when">In cima a ogni documento standalone. Brand, tipo doc, titolo, status.</p>
+      </div>
+      <div class="show-atom__demo show-atom__demo--flush">
+        <header class="med-header">
+          <div class="med-header__strip"></div>
+          <div class="med-header__inner">
+            <div class="med-header__brand">
+              <div class="med-header__logo">M</div>
+              <div class="med-header__meta">
+                <div class="med-header__eyebrow">Weekly Status · W19</div>
+                <h1 class="med-header__title">Operations Update</h1>
+              </div>
+            </div>
+            <div class="med-header__aside">
+              <div class="med-header__date">
+                <span class="med-header__eyebrow">Pubblicato</span>
+                <span class="med-header__date-value">8 Maggio 2026</span>
+              </div>
+              <span class="med-pill med-pill--ok">Live</span>
+            </div>
+          </div>
+        </header>
+      </div>
+      <details class="show-code">
+        <summary class="show-code__summary">HTML</summary>
+<pre>&lt;header class="med-header"&gt;
+  &lt;div class="med-header__strip"&gt;&lt;/div&gt;
+  &lt;div class="med-header__inner"&gt;
+    &lt;div class="med-header__brand"&gt;
+      &lt;div class="med-header__logo"&gt;M&lt;/div&gt;
+      &lt;div class="med-header__meta"&gt;
+        &lt;div class="med-header__eyebrow"&gt;Weekly Status · W19&lt;/div&gt;
+        &lt;h1 class="med-header__title"&gt;Operations Update&lt;/h1&gt;
+      &lt;/div&gt;
+    &lt;/div&gt;
+    &lt;div class="med-header__aside"&gt;
+      &lt;span class="med-pill med-pill--ok"&gt;Live&lt;/span&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;
+&lt;/header&gt;</pre>
+      </details>
+    </article>
+
+
+    <!-- 2. Status Pill -->
+    <article class="show-atom">
+      <div class="show-atom__head">
+        <h3 class="show-atom__name">Status Pill</h3>
+        <p class="show-atom__when">Badge di stato compatto. 5 varianti: ok, warn, danger, neutral, brand.</p>
+      </div>
+      <div class="show-atom__demo">
+        <div style="display:flex;gap:var(--s-3);flex-wrap:wrap">
+          <span class="med-pill med-pill--ok">On track</span>
+          <span class="med-pill med-pill--warn">A rischio</span>
+          <span class="med-pill med-pill--danger">Bloccato</span>
+          <span class="med-pill med-pill--neutral">Da iniziare</span>
+          <span class="med-pill med-pill--brand">In review</span>
+        </div>
+      </div>
+      <details class="show-code">
+        <summary class="show-code__summary">HTML</summary>
+<pre>&lt;span class="med-pill med-pill--ok"&gt;On track&lt;/span&gt;
+&lt;span class="med-pill med-pill--warn"&gt;A rischio&lt;/span&gt;
+&lt;span class="med-pill med-pill--danger"&gt;Bloccato&lt;/span&gt;
+&lt;span class="med-pill med-pill--neutral"&gt;Da iniziare&lt;/span&gt;
+&lt;span class="med-pill med-pill--brand"&gt;In review&lt;/span&gt;</pre>
+      </details>
+    </article>
+
+
+    <!-- 3. Stat Card -->
+    <article class="show-atom">
+      <div class="show-atom__head">
+        <h3 class="show-atom__name">Stat Card</h3>
+        <p class="show-atom__when">Singolo KPI. Variante <code>--accent</code> per il numero più importante (max 1 per pagina).</p>
+      </div>
+      <div class="show-atom__demo">
+        <div class="show-stats">
+          <article class="med-stat med-stat--accent">
+            <div class="med-stat__label">Visite completate</div>
+            <div class="med-stat__value">1.247</div>
+            <div class="med-stat__trend med-stat__trend--up">
+              <span class="med-stat__trend-icon">
+                <svg width="8" height="8" viewBox="0 0 8 8"><path d="M1.5 5.5 L4 3 L6.5 5.5" stroke="currentColor" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              </span>
+              <span>+12,4% vs settimana scorsa</span>
+            </div>
+          </article>
+          <article class="med-stat">
+            <div class="med-stat__label">NPS medio</div>
+            <div class="med-stat__value">8,6<span class="med-stat__value-suffix">/10</span></div>
+            <div class="med-stat__trend med-stat__trend--up">
+              <span class="med-stat__trend-icon">
+                <svg width="8" height="8" viewBox="0 0 8 8"><path d="M1.5 5.5 L4 3 L6.5 5.5" stroke="currentColor" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              </span>
+              <span>+0,3 vs Q3</span>
+            </div>
+          </article>
+          <article class="med-stat">
+            <div class="med-stat__label">Tempo dispatch</div>
+            <div class="med-stat__value">14<span class="med-stat__value-suffix">min</span></div>
+            <div class="med-stat__trend med-stat__trend--down">
+              <span class="med-stat__trend-icon">
+                <svg width="8" height="8" viewBox="0 0 8 8"><path d="M1.5 5.5 L4 3 L6.5 5.5" stroke="currentColor" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              </span>
+              <span>+2 min vs target</span>
+            </div>
+          </article>
+        </div>
+      </div>
+      <details class="show-code">
+        <summary class="show-code__summary">HTML</summary>
+<pre>&lt;article class="med-stat med-stat--accent"&gt;
+  &lt;div class="med-stat__label"&gt;Visite completate&lt;/div&gt;
+  &lt;div class="med-stat__value"&gt;1.247&lt;/div&gt;
+  &lt;div class="med-stat__trend med-stat__trend--up"&gt;
+    &lt;span&gt;+12,4% vs settimana scorsa&lt;/span&gt;
+  &lt;/div&gt;
+&lt;/article&gt;</pre>
+      </details>
+    </article>
+
+
+    <!-- 4. Data Table -->
+    <article class="show-atom">
+      <div class="show-atom__head">
+        <h3 class="show-atom__name">Data Table</h3>
+        <p class="show-atom__when">Righe di dati strutturati. Numeri tabular-nums, hover sottile, pill in cella per stati.</p>
+      </div>
+      <div class="show-atom__demo show-atom__demo--flush">
+        <table class="med-table">
+          <thead>
+            <tr>
+              <th>Iniziativa</th>
+              <th>Owner</th>
+              <th class="med-table__num">Visite/sett</th>
+              <th>Stato</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td class="med-table__primary">Espansione Milano Nord</td>
+              <td class="med-table__muted">Sara C.</td>
+              <td class="med-table__num">312</td>
+              <td><span class="med-pill med-pill--ok">On track</span></td>
+            </tr>
+            <tr>
+              <td class="med-table__primary">Rollout app paziente v2</td>
+              <td class="med-table__muted">Marco T.</td>
+              <td class="med-table__num">—</td>
+              <td><span class="med-pill med-pill--warn">A rischio</span></td>
+            </tr>
+            <tr>
+              <td class="med-table__primary">Partner farmacie Lazio</td>
+              <td class="med-table__muted">Mattia P.</td>
+              <td class="med-table__num">87</td>
+              <td><span class="med-pill med-pill--neutral">Da iniziare</span></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <details class="show-code">
+        <summary class="show-code__summary">HTML</summary>
+<pre>&lt;table class="med-table"&gt;
+  &lt;thead&gt;
+    &lt;tr&gt;
+      &lt;th&gt;Iniziativa&lt;/th&gt;&lt;th&gt;Owner&lt;/th&gt;
+      &lt;th class="med-table__num"&gt;Visite/sett&lt;/th&gt;&lt;th&gt;Stato&lt;/th&gt;
+    &lt;/tr&gt;
+  &lt;/thead&gt;
+  &lt;tbody&gt;
+    &lt;tr&gt;
+      &lt;td class="med-table__primary"&gt;Espansione Milano Nord&lt;/td&gt;
+      &lt;td class="med-table__muted"&gt;Sara C.&lt;/td&gt;
+      &lt;td class="med-table__num"&gt;312&lt;/td&gt;
+      &lt;td&gt;&lt;span class="med-pill med-pill--ok"&gt;On track&lt;/span&gt;&lt;/td&gt;
+    &lt;/tr&gt;
+  &lt;/tbody&gt;
+&lt;/table&gt;</pre>
+      </details>
+    </article>
+
+
+    <!-- 5. Timeline -->
+    <article class="show-atom">
+      <div class="show-atom__head">
+        <h3 class="show-atom__name">Vertical Timeline</h3>
+        <p class="show-atom__when">Sequenza di eventi nel tempo. Stati: done, current, upcoming.</p>
+      </div>
+      <div class="show-atom__demo">
+        <ol class="med-timeline">
+          <li class="med-timeline__item med-timeline__item--done">
+            <span class="med-timeline__time">Q1 2026 · Gennaio</span>
+            <span class="med-timeline__title">Lancio app paziente v1</span>
+            <span class="med-timeline__desc">Onboarding di 800 pazienti nelle prime 4 settimane.</span>
+          </li>
+          <li class="med-timeline__item med-timeline__item--done">
+            <span class="med-timeline__time">Q1 2026 · Marzo</span>
+            <span class="med-timeline__title">Pilot Milano Nord</span>
+            <span class="med-timeline__desc">3 quartieri attivi, 28 infermieri onboarded.</span>
+          </li>
+          <li class="med-timeline__item med-timeline__item--current">
+            <span class="med-timeline__time">Q2 2026 · Maggio (corso)</span>
+            <span class="med-timeline__title">Partnership farmacie Lazio</span>
+            <span class="med-timeline__desc">Accordo quadro firmato, fase di onboarding operativa.</span>
+          </li>
+          <li class="med-timeline__item">
+            <span class="med-timeline__time">Q3 2026 · Luglio</span>
+            <span class="med-timeline__title">Rollout app paziente v2</span>
+            <span class="med-timeline__desc">Booking smart, notifiche push, prescrizione integrata.</span>
+          </li>
+        </ol>
+      </div>
+      <details class="show-code">
+        <summary class="show-code__summary">HTML</summary>
+<pre>&lt;ol class="med-timeline"&gt;
+  &lt;li class="med-timeline__item med-timeline__item--done"&gt;
+    &lt;span class="med-timeline__time"&gt;Q1 2026 · Gennaio&lt;/span&gt;
+    &lt;span class="med-timeline__title"&gt;Lancio app paziente v1&lt;/span&gt;
+    &lt;span class="med-timeline__desc"&gt;Onboarding di 800 pazienti.&lt;/span&gt;
+  &lt;/li&gt;
+  &lt;li class="med-timeline__item med-timeline__item--current"&gt;...&lt;/li&gt;
+  &lt;li class="med-timeline__item"&gt;...&lt;/li&gt;
+&lt;/ol&gt;</pre>
+      </details>
+    </article>
+
+
+    <!-- 6. Collapsible -->
+    <article class="show-atom">
+      <div class="show-atom__head">
+        <h3 class="show-atom__name">Collapsible Section</h3>
+        <p class="show-atom__when">Apri/chiudi nativo per FAQ, dettagli opzionali, sezioni lunghe in report.</p>
+      </div>
+      <div class="show-atom__demo">
+        <details class="med-collapse">
+          <summary class="med-collapse__summary">
+            <span>Cosa abbiamo deciso sul pricing per i partner?</span>
+            <svg class="med-collapse__chevron" width="14" height="14" viewBox="0 0 14 14"><path d="M5 3 L9 7 L5 11" stroke="currentColor" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </summary>
+          <div class="med-collapse__body">
+            Tariffa unica per visita standard, sconto progressivo a volume sopra le 200 visite/mese. Partner farmacie su modello revenue-share 70/30 nel primo anno, rinegoziabile a fine periodo.
+          </div>
+        </details>
+        <details class="med-collapse" open>
+          <summary class="med-collapse__summary">
+            <span>Quando va in produzione la v2 dell'app paziente?</span>
+            <svg class="med-collapse__chevron" width="14" height="14" viewBox="0 0 14 14"><path d="M5 3 L9 7 L5 11" stroke="currentColor" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </summary>
+          <div class="med-collapse__body">
+            Target Q3 2026, tipicamente fine luglio. Beta interno previsto per metà giugno con il team operativo Milano. Dipendenze critiche: integrazione FSE, certificazione MDR Class IIa.
+          </div>
+        </details>
+      </div>
+      <details class="show-code">
+        <summary class="show-code__summary">HTML</summary>
+<pre>&lt;details class="med-collapse"&gt;
+  &lt;summary class="med-collapse__summary"&gt;
+    &lt;span&gt;Domanda?&lt;/span&gt;
+    &lt;svg class="med-collapse__chevron" ...&gt;&lt;/svg&gt;
+  &lt;/summary&gt;
+  &lt;div class="med-collapse__body"&gt;Risposta...&lt;/div&gt;
+&lt;/details&gt;</pre>
+      </details>
+    </article>
+
+
+    <!-- 7. Comparison Columns -->
+    <article class="show-atom">
+      <div class="show-atom__head">
+        <h3 class="show-atom__name">Comparison Columns</h3>
+        <p class="show-atom__when">Confronto side-by-side di opzioni. Una colonna featured come "Consigliato".</p>
+      </div>
+      <div class="show-atom__demo">
+        <div class="med-compare">
+          <div class="med-compare__col">
+            <div class="med-compare__head">
+              <div class="med-compare__title">Status quo</div>
+              <div class="med-compare__sub">Continuiamo come oggi</div>
+            </div>
+            <ul class="med-compare__rows">
+              <li class="med-compare__row"><span class="med-compare__row-label">Effort</span><span class="med-compare__row-value">Basso</span></li>
+              <li class="med-compare__row"><span class="med-compare__row-label">Time-to-market</span><span class="med-compare__row-value">0 mesi</span></li>
+              <li class="med-compare__row"><span class="med-compare__row-label">Upside</span><span class="med-compare__row-value">Limitato</span></li>
+            </ul>
+          </div>
+          <div class="med-compare__col med-compare__col--featured">
+            <div class="med-compare__head">
+              <div class="med-compare__title">Espansione graduale</div>
+              <div class="med-compare__sub">3 città in 12 mesi</div>
+            </div>
+            <ul class="med-compare__rows">
+              <li class="med-compare__row"><span class="med-compare__row-label">Effort</span><span class="med-compare__row-value">Medio</span></li>
+              <li class="med-compare__row"><span class="med-compare__row-label">Time-to-market</span><span class="med-compare__row-value">3 mesi</span></li>
+              <li class="med-compare__row"><span class="med-compare__row-label">Upside</span><span class="med-compare__row-value">3-5x ARR</span></li>
+            </ul>
+          </div>
+          <div class="med-compare__col">
+            <div class="med-compare__head">
+              <div class="med-compare__title">Push aggressivo</div>
+              <div class="med-compare__sub">8 città in 12 mesi</div>
+            </div>
+            <ul class="med-compare__rows">
+              <li class="med-compare__row"><span class="med-compare__row-label">Effort</span><span class="med-compare__row-value">Alto</span></li>
+              <li class="med-compare__row"><span class="med-compare__row-label">Time-to-market</span><span class="med-compare__row-value">6 mesi</span></li>
+              <li class="med-compare__row"><span class="med-compare__row-label">Upside</span><span class="med-compare__row-value">8-12x ARR (rischioso)</span></li>
+            </ul>
+          </div>
+        </div>
+      </div>
+      <details class="show-code">
+        <summary class="show-code__summary">HTML</summary>
+<pre>&lt;div class="med-compare"&gt;
+  &lt;div class="med-compare__col"&gt;...&lt;/div&gt;
+  &lt;div class="med-compare__col med-compare__col--featured"&gt;
+    &lt;div class="med-compare__head"&gt;
+      &lt;div class="med-compare__title"&gt;Opzione&lt;/div&gt;
+    &lt;/div&gt;
+    &lt;ul class="med-compare__rows"&gt;
+      &lt;li class="med-compare__row"&gt;
+        &lt;span class="med-compare__row-label"&gt;Effort&lt;/span&gt;
+        &lt;span class="med-compare__row-value"&gt;Medio&lt;/span&gt;
+      &lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/div&gt;
+&lt;/div&gt;</pre>
+      </details>
+    </article>
+
+
+    <!-- 8. Section Header -->
+    <article class="show-atom">
+      <div class="show-atom__head">
+        <h3 class="show-atom__name">Section Header</h3>
+        <p class="show-atom__when">Divisore di sezione interno a documenti lunghi. Numero progressivo + titolo + count opzionale.</p>
+      </div>
+      <div class="show-atom__demo">
+        <div class="med-section-head" style="margin-top:0">
+          <span class="med-section-head__num">02</span>
+          <h2 class="med-section-head__title">Performance operativa</h2>
+          <span class="med-section-head__count">4 KPI · 1 alert</span>
+        </div>
+      </div>
+      <details class="show-code">
+        <summary class="show-code__summary">HTML</summary>
+<pre>&lt;div class="med-section-head"&gt;
+  &lt;span class="med-section-head__num"&gt;02&lt;/span&gt;
+  &lt;h2 class="med-section-head__title"&gt;Performance operativa&lt;/h2&gt;
+  &lt;span class="med-section-head__count"&gt;4 KPI · 1 alert&lt;/span&gt;
+&lt;/div&gt;</pre>
+      </details>
+    </article>
+
+  </section>
+
+
+  <!-- ============ PATTERNS ============ -->
+  <section class="show-group">
+    <div class="show-group__head">
+      <h2 class="show-group__title">Patterns</h2>
+      <span class="show-group__count">Assemblaggi ricorrenti</span>
+    </div>
+    <div class="show-link-grid">
+      <a class="show-link" href="patterns/report-layout.html" target="_blank">
+        <div class="show-link__kind">Pattern</div>
+        <div class="show-link__title">Report Layout</div>
+        <div class="show-link__desc">Template completo per report ricorrenti: header + summary KPI + sezioni + tabella + timeline. Usalo come scheletro per weekly status, board update, post-mortem.</div>
+      </a>
+    </div>
+  </section>
+
+
+  <!-- ============ APPS ============ -->
+  <section class="show-group">
+    <div class="show-group__head">
+      <h2 class="show-group__title">Apps</h2>
+      <span class="show-group__count">Strumenti interattivi standalone</span>
+    </div>
+    <div class="show-link-grid">
+      <a class="show-link" href="apps/triage-board.html" target="_blank">
+        <div class="show-link__kind">App</div>
+        <div class="show-link__title">Triage Board</div>
+        <div class="show-link__desc">Drag-and-drop di item tra Now / Next / Later / Cut. Esporta l'ordine finale come Markdown da incollare in ClickUp. Ideale per prioritizzare backlog, deal, hire.</div>
+      </a>
+    </div>
+  </section>
+
+
+  <footer class="show-foot">
+    <span>Medicilio Design System</span>
+    <span>github.com/fastperrons2/design-system</span>
+  </footer>
+
+</main>
+</body>
+</html>
